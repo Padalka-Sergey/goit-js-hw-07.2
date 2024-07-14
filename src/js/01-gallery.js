@@ -1,29 +1,39 @@
 import { galleryItems } from './gallery-items.js';
 
 // Change code below this line
-
+let instance = null;
 const galleryRef = document.querySelector('.gallery');
-const markup = galleryItems
-  .map(
-    ({ preview, description, original }) =>
-      `<li class="gallery__item"><a class="gallery__link" href=${original}><img class="gallery__image" src=${preview} data-source=${original} alt=${description}/></a></li>`
-  )
-  .join('');
+const markup = createGalleryItems(galleryItems);
 
 galleryRef.innerHTML = markup;
 
 galleryRef.addEventListener('click', clickImageHandler);
 
+function createGalleryItems(items) {
+  return items
+    .map(
+      ({ preview, description, original }) =>
+        `<li class="gallery__item"><a class="gallery__link" href=${original}><img class="gallery__image" src=${preview} data-source=${original} alt=${description}/></a></li>`
+    )
+    .join('');
+}
+
 function clickImageHandler(evt) {
   evt.preventDefault();
   if (evt.target.nodeName !== 'IMG') {
-    // console.log(evt.target.nodeName);
     return;
   }
-  const instance = basicLightbox.create(`
+  instance = basicLightbox.create(`
     <img src=${evt.target.dataset.source} width="800" height="600">
 `);
+  instance.show(() => document.addEventListener('keydown', escCloseHandler));
+}
 
-  instance.show();
-  console.dir(evt.target);
+function escCloseHandler(evt) {
+  if (evt.code === 'Escape') {
+    instance.close(() =>
+      document.removeEventListener('keydown', escCloseHandler)
+    );
+  }
+  return;
 }
