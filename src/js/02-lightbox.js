@@ -12,7 +12,11 @@ function createGalleryItems(items) {
   return items
     .map(
       ({ preview, description, original }) =>
-        `<li class="gallery__item"><a class="gallery__link" href=${original}><img class="gallery__image" src=${preview} alt=${description}/></a></li>`
+        `<li class="gallery__item">
+            <a class="gallery__link" href=${original}>
+                <img class="gallery__image"  src=${preview} alt="${description}"/>
+            </a>
+         </li>`
     )
     .join('');
 }
@@ -23,9 +27,15 @@ function clickImageHandler(evt) {
     return;
   }
 
-  var lightbox = new SimpleLightbox('.gallery a', {
+  new SimpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionDelay: 250,
   });
-  lightbox.open();
 }
+
+//  var lightbox = new SimpleLightbox('.gallery a', {
+//     captionsData: 'alt',
+//     captionDelay: 250,
+//   });
+//   lightbox.open();
+// }
