@@ -30,6 +30,7 @@ function clickImageHandler(evt) {
 }
 
 function escCloseHandler(evt) {
+  console.log('Слушатель ESC');
   if (evt.code === 'Escape') {
     instance.close(() =>
       document.removeEventListener('keydown', escCloseHandler)
